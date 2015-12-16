@@ -209,6 +209,7 @@ h3 span {
 .comment {
     width: 70%;
     clear: both;
+    position: relative;
 }
 
 .comment .comment-metadata {
@@ -239,6 +240,16 @@ h3 span {
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
 }
+
+.comment .comment-delete{
+	position: absolute;
+	top: 0;
+	right: -35px;
+}
+	.comment .comment-delete a{
+		color: #869AB1;
+		text-decoration: none;
+	}
 
 .comment .about {
     text-indent: -999em;

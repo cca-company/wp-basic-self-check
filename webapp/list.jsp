@@ -16,6 +16,7 @@
 	}
 	
 	#title{
+		position: relative;
 		margin : 30px 10px 50px 10px;
 	}
 	#title a{
@@ -25,11 +26,17 @@
 	#title #qes{
 		/*
 		1. 
-		#title에서 위로 0px;
-		#title에서 오른쪽으로 10px;
+		#title에서 위에서 0px;
+		#title에서 오른쪽에서 10px;
 		너비는 80px
 		높이는 40px 
 		*/
+		position: absolute;
+		top: 0px;
+		right: 10px;
+		width: 80px;
+		height: 40px;
+		
 		line-height: 42px;
 		border: 2px solid #808080;
 		border-radius: 50px;
@@ -44,6 +51,8 @@
 		안쪽 여백을 0px로 
 		바깥쪽 여백을 10px로 넣는다.
 		*/
+		padding: 0px;
+		margin: 10px;
 	}
 	#content li{
 		position : relative;
@@ -74,6 +83,10 @@
 		color : rgb(0, 119, 204);
 	} 
 	*/
+	#content li .metadata span.author{
+		color: rgb(0, 119, 204);
+	}
+	
 	#content .del{
 		position : absolute;
 		top: 10px;
@@ -95,7 +108,7 @@
 <body>
 	<div id ="main">
 	    <div id="title">
-	        <h1><a href="/list.next">Web Programming 실습</a></h2>
+	        <h1><a href="/list.next">Web Programming 실습</a></h1>
 	        <a id="qes" href="/form.next">질문하기</a>
 	    </div>
 	    <ul id="content">    
@@ -116,8 +129,11 @@
 		      	  <inline-tag class="author"></inline-tag>
 		      	  <inline-tag class="comments"></inline-tag>
 		      	  -->
+		      	  <span class="date"><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${each.createdDate}" /></span>
+		      	  <span class="author">${each.writer}</span>
+		      	  <span class="comments"></span>
 		      </div>
-		      <button class="del">X</button>
+		      <button class="del" data-question-id="${each.questionId}">X</button>
 		  </li>
 		</c:forEach>
 		</ul>
@@ -131,7 +147,10 @@
 			<button class="more">더보기</button>
 		</block-tag>  
 		-->
-	    <button class="more">더보기</button>
+		<div id="footer">
+	    	<button class="more">더보기</button>
+	    </div>
 	</div>
 </body>
+<script type="text/javascript" src="/javascripts/list.js"></script>
 </html>

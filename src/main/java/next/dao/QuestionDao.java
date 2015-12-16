@@ -10,6 +10,13 @@ import core.jdbc.JdbcTemplate;
 import core.jdbc.RowMapper;
 
 public class QuestionDao {
+	private static QuestionDao instance = new QuestionDao();
+	
+	private QuestionDao(){};
+	
+	public static QuestionDao getInstance(){
+		return instance;
+	}
 
 	public void insert(Question question) {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate();
@@ -23,6 +30,11 @@ public class QuestionDao {
 	}
 	
 	public List<Question> findAllByPage() {
+		return findAllByPage(0, 5);
+	}
+
+	public List<Question> findAllByPage(int offset, int limit) {
+
 		JdbcTemplate jdbcTemplate = new JdbcTemplate();
 		String sql = "SELECT questionId, writer, title, createdDate, countOfComment FROM QUESTIONS "
 				+ "ORDER BY questionId DESC LIMIT ?, ?";
@@ -38,8 +50,6 @@ public class QuestionDao {
 			
 		};
 		
-		int offset = 0;
-		int limit = 5;
 		return jdbcTemplate.query(sql, rm, offset, limit);
 	}
 
@@ -61,5 +71,25 @@ public class QuestionDao {
 		};
 		
 		return jdbcTemplate.queryForObject(sql, rm, questionId);
+	}
+	
+	public void increaseComment(long questionId){
+		JdbcTemplate jdbcTemplate = new JdbcTemplate();
+		String sql = "UPDATE QUESTIONS SET countOfComment = countOfComment+1 WHERE questionId = ?";
+		
+		jdbcTemplate.update(sql, questionId);
+	}
+	
+	public void decreaseComment(long questionId){
+		JdbcTemplate jdbcTemplate = new JdbcTemplate();
+		String sql = "UPDATE QUESTIONS SET countOfComment = countOfComment-1 WHERE questionId = ?";
+		
+		jdbcTemplate.update(sql, questionId);
+	}
+	
+	public void delete(long questionId){
+		JdbcTemplate jdbcTemplate = new JdbcTemplate();
+		String sql = "DELETE FROM QUESTIONS WHERE questionId = ?";
+		jdbcTemplate.update(sql, questionId);
 	}
 }

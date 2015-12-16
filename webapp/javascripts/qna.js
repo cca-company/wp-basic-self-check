@@ -3,6 +3,12 @@ for ( var j=0 ; j < formList.length ; j++) {
 	formList[j].addEventListener('click', writeAnswers, false);
 }
 
+var anchorList = document.querySelectorAll('.comment-delete');
+for ( var j=0 ; j < anchorList.length ; j++) {
+	anchorList[j].addEventListener('click', deleteAnswers, false);
+}
+
+
 function writeAnswers(e) {
 	 e.preventDefault();
 	 
@@ -21,4 +27,25 @@ function writeAnswers(e) {
 	 }
 	 
 	 request.send(params);
+}
+
+function deleteAnswers(e){
+	 e.preventDefault();
+	 
+	 var answerId = this.dataset.answerId;
+	 var url = "/api/deleteanswer.next";
+	 var params = "answerId=" + answerId;
+	 
+	 var request = new XMLHttpRequest();
+	 request.open("POST", url, true);
+	 request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	 
+	 request.onreadystatechange = function() {
+		 if(request.readyState == 4 && request.status == 200) {
+			 location.reload(true);
+		 }
+	 }
+	 
+	 request.send(params);
+	
 }
